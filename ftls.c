@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/19 14:46:15 by kioulian          #+#    #+#             */
-/*   Updated: 2016/06/19 18:34:08 by kioulian         ###   ########.fr       */
+/*   Updated: 2016/11/19 13:11:02 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_print_ls(t_dir *list, t_env *e, char *path)
 	t_dir	*temp;
 
 	if (e->t == 1)
-		sort_list(&list, compare_time);
+		sort_list(&list, compare_time, 0);
 	if (e->r == 1)
 		list = ft_rev_list(list);
 	ft_putstr(ft_strjoin(path, "/"));
@@ -57,7 +57,7 @@ void	ft_print_ls(t_dir *list, t_env *e, char *path)
 		temp = temp->next;
 	}
 	ft_putchar('\n');
-	if (e->R == 1)
+	if (e->rr == 1)
 		big_r(list, e);
 }
 

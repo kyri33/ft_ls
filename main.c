@@ -6,13 +6,13 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/17 15:50:58 by kioulian          #+#    #+#             */
-/*   Updated: 2016/06/19 18:38:31 by kioulian         ###   ########.fr       */
+/*   Updated: 2016/11/19 13:10:06 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftls.h"
 
-int	add_args(t_env *e, char *arg)
+int		add_args(t_env *e, char *arg)
 {
 	int	x;
 
@@ -28,7 +28,7 @@ int	add_args(t_env *e, char *arg)
 		else if (arg[x] == 't')
 			e->t = 1;
 		else if (arg[x] == 'R')
-			e->R = 1;
+			e->rr = 1;
 		else
 		{
 			ft_putstr("Invalid argument");
@@ -39,12 +39,12 @@ int	add_args(t_env *e, char *arg)
 	return (1);
 }
 
-int	compare_strings(t_dir d1, t_dir d2)
+int		compare_strings(t_dir d1, t_dir d2)
 {
 	return (ft_strcmp(d1.dir, d2.dir));
 }
 
-int compare_time(t_dir d1, t_dir d2)
+int		compare_time(t_dir d1, t_dir d2)
 {
 	if (d1.time < d2.time)
 		return (1);
@@ -52,17 +52,13 @@ int compare_time(t_dir d1, t_dir d2)
 		return (0);
 }
 
-void	sort_list(t_dir **head, int (*cmp)(t_dir, t_dir))
+void	sort_list(t_dir **head, int (*cmp)(t_dir, t_dir), int done)
 {
-	int		done;
 	t_dir	**src;
 	t_dir	*temp;
 	t_dir	*next;
 
-	done = 0;
-	if (*head == NULL || (*head)->next == NULL)
-		return;
-	while (!done)
+	while (!done && *head != NULL && (*head)->next != NULL)
 	{
 		src = head;
 		temp = *head;
@@ -83,7 +79,8 @@ void	sort_list(t_dir **head, int (*cmp)(t_dir, t_dir))
 		}
 	}
 }
-int	main(int argc, char **argv)
+
+int		main(int argc, char **argv)
 {
 	int		i;
 	t_env	e;
@@ -91,30 +88,21 @@ int	main(int argc, char **argv)
 
 	i = 1;
 	e.list = NULL;
-	if (argc > 1)
+	while (i < argc)
 	{
-		while (i < argc)
+		if (argv[i][0] != '-' && (temp = (t_dir *)malloc(sizeof(t_dir))))
 		{
-			if (argv[i][0] != '-')
-			{
-				temp = (t_dir *)malloc(sizeof(t_dir));
-				temp->dir = argv[i];
-				temp->next = e.list;
-				e.list = temp;
-			}
-			else
-				if (add_args(&e, argv[i]) == 0)
-					return (0);
-			i++;
+			temp->dir = argv[i];
+			temp->next = e.list;
+			e.list = temp;
 		}
+		else if (add_args(&e, argv[i]) == 0)
+			return (0);
+		i++;
 	}
 	if (e.list == NULL)
-	{
-		e.list = (t_dir *)malloc(sizeof(t_dir));
-		e.list->dir = ".";
-		e.list->next = NULL;
-	}
+		do_list(&e);
 	else
-		sort_list(&e.list, compare_strings);
+		sort_list(&e.list, compare_strings, 0);
 	ft_ls(&e);
 }
