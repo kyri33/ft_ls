@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/19 14:46:15 by kioulian          #+#    #+#             */
-/*   Updated: 2016/11/19 15:10:26 by kioulian         ###   ########.fr       */
+/*   Updated: 2016/12/02 17:56:57 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,16 @@ void	ft_print_ls(t_dir *list, t_env *e, char *path)
 	if (e->r == 1)
 		list = ft_rev_list(list);
 	ft_putstr(ft_strjoin(path, "/"));
-	temp = list;
-	while (temp != NULL)
+	if (e->l == 1)
+		print_l(list, e);
+	else
 	{
-		ft_putstr(ft_strjoin("\n\t", temp->dir));
-		temp = temp->next;
+		temp = list;
+		while (temp != NULL)
+		{
+			ft_putstr(ft_strjoin("\n\t", temp->dir));
+			temp = temp->next;
+		}
 	}
 	ft_putchar('\n');
 	if (e->rr == 1)

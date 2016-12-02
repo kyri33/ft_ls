@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 13:03:58 by kioulian          #+#    #+#             */
-/*   Updated: 2016/11/19 15:10:28 by kioulian         ###   ########.fr       */
+/*   Updated: 2016/12/02 17:21:39 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 # include <sys/types.h>
 # include <sys/dir.h>
 # include <sys/stat.h>
+# include <pwd.h>
+# include <uuid/uuid.h>
+# include <grp.h>
+# include <time.h>
+# include <sys/xattr.h>
 
 typedef struct	s_dir
 {
@@ -48,5 +53,6 @@ void			do_ls(char *dir, t_env *e);
 void			sort_list(t_dir **head, int (*cmp)(t_dir, t_dir), int done);
 int				compare_strings(t_dir d1, t_dir d2);
 void			do_list(t_env *e);
+void			print_l(t_dir *list, t_env *e);
 
 #endif
