@@ -12,16 +12,21 @@
 
 NAME = ft_ls
 
-SRC = main.c ftls.c libft.a list.c
+SRC = main.c ftls.c libft/libft.a list.c
 
-FLAGS = clang -Wall -Werror -Wextra -o
+FLAGS = clang -Wall -Werror -Wextra -g -I includes -o
 
 all : $(NAME)
 
 $(NAME) :
-	$(FLAGS) $(NAME) $(SRC)
+	@make -C libft/ fclean && make -C libft/ all
+	@$(FLAGS) $(NAME) $(SRC)
+
+clean:
+	@make -C libft/ clean
 
 fclean :
-	rm $(NAME)
+	@make -C libft/ fclean
+	@rm -f $(NAME)
 
 re : fclean all

@@ -35,7 +35,7 @@ void	big_r(t_dir *list, t_env *e)
 	temp = list;
 	while (temp != NULL)
 	{
-		if (temp->is_dir == 1 && temp->dir[0] != '.')
+		if (temp->is_dir == 1 && temp->dir[0] != '.' && temp->dir[1] != '.')
 			do_ls(temp->full_path, e);
 		temp = temp->next;
 	}
