@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ftls.h"
+#include <stdio.h>
 
 t_dir	*ft_rev_list(t_dir *head)
 {
@@ -25,6 +26,7 @@ t_dir	*ft_rev_list(t_dir *head)
 		list = head;
 		head = next;
 	}
+	free(next);
 	return (list);
 }
 
@@ -35,7 +37,7 @@ void	big_r(t_dir *list, t_env *e)
 	temp = list;
 	while (temp != NULL)
 	{
-		if (temp->is_dir == 1 && temp->dir[0] != '.' && temp->dir[1] != '.')
+		if (temp->is_dir == 1 && temp->dir[0] != '.')
 			do_ls(temp->full_path, e);
 		temp = temp->next;
 	}
@@ -45,8 +47,8 @@ void	ft_print_ls(t_dir *list, t_env *e, char *path)
 {
 	t_dir	*temp;
 
-	if (e->t == 1)
-		sort_list(&list, compare_time, 0);
+	//if (e->t == 1)
+	//	sort_list(&list, compare_time, 0);
 	if (e->r == 1)
 		list = ft_rev_list(list);
 	ft_putstr(ft_strjoin(path, "/"));
@@ -57,7 +59,9 @@ void	ft_print_ls(t_dir *list, t_env *e, char *path)
 		temp = list;
 		while (temp != NULL)
 		{
-			ft_putstr(ft_strjoin("\n\t", temp->dir));
+			//ft_putstr("\n\t");
+			//ft_putstr(temp->dir);
+			printf("\n\t%s", temp->dir);
 			temp = temp->next;
 		}
 	}
@@ -80,6 +84,7 @@ void	do_ls(char *dir, t_env *e)
 			{
 				temp = (t_dir *)malloc(sizeof(t_dir));
 				temp->dir = e->dp->d_name;
+				ft_putstr("Got ");ft_putstr(temp->dir);ft_putstr(" ");
 				temp->full_path = ft_strjoin(ft_strjoin(dir, "/"),
 						e->dp->d_name);
 				lstat(temp->full_path, &e->sb);
@@ -90,7 +95,10 @@ void	do_ls(char *dir, t_env *e)
 				list = temp;
 			}
 		}
+		closedir(e->dirp);
 		ft_print_ls(list, e, dir);
+		free(temp);
+		temp = NULL;
 	}
 }
 

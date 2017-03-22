@@ -17,6 +17,11 @@ int		add_args(t_env *e, char *arg)
 	int	x;
 
 	x = 1;
+	e->a = 0;
+	e->r = 0;
+	e->t = 0;
+	e->l = 0;
+	e->rr = 0;
 	while (arg[x] != '\0')
 	{
 		if (arg[x] == 'l')
@@ -29,11 +34,11 @@ int		add_args(t_env *e, char *arg)
 			e->t = 1;
 		else if (arg[x] == 'R')
 			e->rr = 1;
-		else
+		/*else
 		{
 			ft_putstr("Invalid argument");
 			return (0);
-		}
+		}*/
 		x++;
 	}
 	return (1);
@@ -105,4 +110,6 @@ int		main(int argc, char **argv)
 	else
 		sort_list(&e.list, compare_strings, 0);
 	ft_ls(&e);
+	free(temp);
+	temp = NULL;
 }
