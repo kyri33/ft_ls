@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/19 14:46:15 by kioulian          #+#    #+#             */
-/*   Updated: 2016/12/02 17:56:57 by kioulian         ###   ########.fr       */
+/*   Updated: 2017/03/25 12:59:06 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ void	do_ls(char *dir, t_env *e)
 			if (e->dp->d_name[0] != '.' || e->a == 1)
 			{
 				temp = (t_dir *)malloc(sizeof(t_dir));
-				temp->dir = e->dp->d_name;
+				temp->dir = ft_strdup(e->dp->d_name);
+				//temp->dir = e->dp->d_name;
 				temp->full_path = ft_strjoin(ft_strjoin(dir, "/"),
 						e->dp->d_name);
 				lstat(temp->full_path, &e->sb);
@@ -92,17 +93,17 @@ void	do_ls(char *dir, t_env *e)
 					temp->is_dir = 1;
 				temp->next = list;
 				list = temp;
-				temp = list;
+				/*temp = list;
 		while (temp != NULL)
 		{
 			ft_putstr(temp->dir);
 			ft_putstr(" ");
 			temp = temp->next;
-		}
+		}*/
 		ft_putstr("\n\n");
 				//ft_putstr("Got ");ft_putstr(temp->dir);ft_putstr(" ");
 			}
-		}
+		 }
 		closedir(e->dirp);
 		ft_print_ls(list, e, dir);
 		free(temp);
