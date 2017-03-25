@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/19 14:46:15 by kioulian          #+#    #+#             */
-/*   Updated: 2017/03/25 12:59:06 by kioulian         ###   ########.fr       */
+/*   Updated: 2017/03/25 14:51:58 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,17 @@ void	big_r(t_dir *list, t_env *e)
 void	ft_print_ls(t_dir *list, t_env *e, char *path)
 {
 	t_dir	*temp;
+	char	*new;
 
 	if (e->t == 1)
 		sort_list(&list, compare_time, 0);
 	if (e->r == 1)
 		list = ft_rev_list(list);
-	ft_putstr(ft_strjoin(path, "/"));
+	new = ft_strjoin(path, "/");
+	ft_putstr(new);
+	free(new);
 	if (e->l == 1)
-		print_l(list, e);
+		print_l(list);
 	else
 	{
 		temp = list;
@@ -61,7 +64,6 @@ void	ft_print_ls(t_dir *list, t_env *e, char *path)
 		{
 			ft_putstr("\n\t");
 			ft_putstr(temp->dir);
-			//printf("\n\t%s", temp->dir);
 			temp = temp->next;
 		}
 	}
@@ -84,30 +86,18 @@ void	do_ls(char *dir, t_env *e)
 			{
 				temp = (t_dir *)malloc(sizeof(t_dir));
 				temp->dir = ft_strdup(e->dp->d_name);
-				//temp->dir = e->dp->d_name;
-				temp->full_path = ft_strjoin(ft_strjoin(dir, "/"),
-						e->dp->d_name);
+				get_path(dir, e->dp->d_name, temp);
 				lstat(temp->full_path, &e->sb);
 				temp->time = e->sb.st_mtime;
 				if (S_ISDIR(e->sb.st_mode) == 1)
 					temp->is_dir = 1;
 				temp->next = list;
 				list = temp;
-				/*temp = list;
-		while (temp != NULL)
-		{
-			ft_putstr(temp->dir);
-			ft_putstr(" ");
-			temp = temp->next;
-		}*/
-		ft_putstr("\n\n");
-				//ft_putstr("Got ");ft_putstr(temp->dir);ft_putstr(" ");
 			}
-		 }
+		}
 		closedir(e->dirp);
 		ft_print_ls(list, e, dir);
-		free(temp);
-		temp = NULL;
+		free_list(list);
 	}
 }
 

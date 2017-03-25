@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 13:03:58 by kioulian          #+#    #+#             */
-/*   Updated: 2016/12/02 17:21:39 by kioulian         ###   ########.fr       */
+/*   Updated: 2017/03/25 14:50:35 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ void			do_ls(char *dir, t_env *e);
 void			sort_list(t_dir **head, int (*cmp)(t_dir, t_dir), int done);
 int				compare_strings(t_dir d1, t_dir d2);
 void			do_list(t_env *e);
-void			print_l(t_dir *list, t_env *e);
+void			print_l(t_dir *list);
+void			init_vals(t_env *e);
+int				free_list(t_dir *list);
+void			free_vals(t_dir *list, t_dir *temp);
+int				get_path(char *dir, char *name, t_dir *temp);
 
 #endif

@@ -6,22 +6,39 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/17 15:50:58 by kioulian          #+#    #+#             */
-/*   Updated: 2016/12/02 17:56:56 by kioulian         ###   ########.fr       */
+/*   Updated: 2017/03/25 14:51:59 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftls.h"
+
+void	free_vals(t_dir *list, t_dir *tmp)
+{
+	t_dir *temp;
+	t_dir *tofree;
+
+	temp = list;
+	while (temp != NULL)
+	{
+		free(temp->dir);
+		temp->dir = NULL;
+		free(temp->full_path);
+		temp->full_path = NULL;
+		tofree = temp;
+		temp = temp->next;
+		free(tofree);
+		tofree = NULL;
+	}
+	free(tmp);
+	tmp = NULL;
+}
 
 int		add_args(t_env *e, char *arg)
 {
 	int	x;
 
 	x = 1;
-	e->a = 0;
-	e->r = 0;
-	e->t = 0;
-	e->l = 0;
-	e->rr = 0;
+	init_vals(e);
 	while (arg[x] != '\0')
 	{
 		if (arg[x] == 'l')
@@ -34,27 +51,23 @@ int		add_args(t_env *e, char *arg)
 			e->t = 1;
 		else if (arg[x] == 'R')
 			e->rr = 1;
-		/*else
+		else
 		{
 			ft_putstr("Invalid argument");
 			return (0);
-		}*/
+		}
 		x++;
 	}
 	return (1);
 }
 
-int		compare_strings(t_dir d1, t_dir d2)
+void	init_vals(t_env *e)
 {
-	return (ft_strcmp(d1.dir, d2.dir));
-}
-
-int		compare_time(t_dir d1, t_dir d2)
-{
-	if (d1.time < d2.time)
-		return (1);
-	else
-		return (0);
+	e->a = 0;
+	e->r = 0;
+	e->t = 0;
+	e->l = 0;
+	e->rr = 0;
 }
 
 void	sort_list(t_dir **head, int (*cmp)(t_dir, t_dir), int done)
@@ -110,6 +123,5 @@ int		main(int argc, char **argv)
 	else
 		sort_list(&e.list, compare_strings, 0);
 	ft_ls(&e);
-	free(temp);
-	temp = NULL;
+	free_vals(e.list, temp);
 }
