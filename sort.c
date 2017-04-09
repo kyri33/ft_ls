@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 14:01:30 by kioulian          #+#    #+#             */
-/*   Updated: 2017/03/25 14:50:59 by kioulian         ###   ########.fr       */
+/*   Updated: 2017/04/09 13:07:29 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	get_path(char *dir, char *name, t_dir *temp)
 {
 	char	*path;
 	char	*fullpath;
-	
+
 	path = ft_strjoin(dir, "/");
 	fullpath = ft_strjoin(path, name);
 	temp->full_path = strdup(fullpath);

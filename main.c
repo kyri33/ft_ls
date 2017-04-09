@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/17 15:50:58 by kioulian          #+#    #+#             */
-/*   Updated: 2017/03/25 14:51:59 by kioulian         ###   ########.fr       */
+/*   Updated: 2017/04/09 13:07:27 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ void	free_vals(t_dir *list, t_dir *tmp)
 	temp = list;
 	while (temp != NULL)
 	{
-		free(temp->dir);
-		temp->dir = NULL;
 		free(temp->full_path);
 		temp->full_path = NULL;
 		tofree = temp;
@@ -29,8 +27,7 @@ void	free_vals(t_dir *list, t_dir *tmp)
 		free(tofree);
 		tofree = NULL;
 	}
-	free(tmp);
-	tmp = NULL;
+	(void)tmp;
 }
 
 int		add_args(t_env *e, char *arg)
@@ -123,5 +120,6 @@ int		main(int argc, char **argv)
 	else
 		sort_list(&e.list, compare_strings, 0);
 	ft_ls(&e);
-	free_vals(e.list, temp);
+	free(e.list);
+	e.list = NULL;
 }
