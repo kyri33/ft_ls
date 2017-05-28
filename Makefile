@@ -6,21 +6,21 @@
 #    By: kioulian <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/06/19 12:39:08 by kioulian          #+#    #+#              #
-#    Updated: 2017/03/25 14:03:47 by kioulian         ###   ########.fr        #
+#    Updated: 2017/05/28 11:17:41 by kioulian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 
-SRC = main.c ftls.c libft/libft.a list.c sort.c
+SRC = main.c ftls.c list.c sort.c
 
 FLAGS = clang -Wall -Werror -Wextra -g -I includes -o
 
 all : $(NAME)
 
-$(NAME) :
+$(NAME) : $(SRC)
 	@make -C libft/ fclean && make -C libft/ all
-	@$(FLAGS) $(NAME) $(SRC)
+	@$(FLAGS) $(NAME) $(SRC) libft/libft.a
 
 clean:
 	@make -C libft/ clean
